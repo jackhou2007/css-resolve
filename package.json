@@ -1,0 +1,22 @@
+{
+  "name": "css-resolve",
+  "version": "0.0.0",
+  "description": "css common tools lib",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackhou2007/css-resolve.git"
+  },
+  "keywords": [
+    "css"
+  ],
+  "author": "samhou1988@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackhou2007/css-resolve/issues"
+  },
+  "homepage": "https://github.com/jackhou2007/css-resolve"
+}
