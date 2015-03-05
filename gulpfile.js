@@ -8,6 +8,10 @@ var minicss = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var map = require('map-stream');
 var clean = require('gulp-clean');
+var sprite = require('css-sprite').stream;
+var gulpif = require('gulp-if');
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 
 var myReporter = map(function (file, cb) {
   if (!file.jshint.success) {
@@ -48,6 +52,39 @@ gulp.task('scripts', ['clean-scripts', 'jshint'], function () {
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
     .pipe(gulp.dest('build/js'));
+});
+
+// transition sass file to css file
+gulp.task('sass',['sprites'], function () {
+  return gulp.src('src/scss/*.scss')
+      .pipe(sourcemaps.init())
+      .pipe(sass())
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('src/css'));
+});
+
+// css sprite
+// generate sprite.png and _sprite.scss
+gulp.task('sprites', function () {
+  return gulp.src('./src/img/icons/**/*.png')
+    .pipe(sprite({
+      name: 'sprite',
+      style: '_sprite.scss',
+      cssPath: './img',
+      processor: 'scss'
+    }))
+    .pipe(gulpif('*.png', gulp.dest('src/img/'), gulp.dest('src/scss/')))
+});
+
+// generate scss with base64 encoded images
+gulp.task('base64', function () {
+  return gulp.src('./src/img/icons/**/*.png')
+    .pipe(sprite({
+      base64: true,
+      style: '_base64.scss',
+      processor: 'scss'
+    }))
+    .pipe(gulp.dest('./build/scss/'));
 });
 
 // default task
