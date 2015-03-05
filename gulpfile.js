@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var minicss = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var map = require('map-stream');
-var DEST = 'build';
+var clean = require('gulp-clean');
 
 var myReporter = map(function (file, cb) {
   if (!file.jshint.success) {
@@ -21,20 +21,36 @@ var myReporter = map(function (file, cb) {
   cb(null, file);
 });
 
+// js hint
+gulp.task('jshint', function () {
+  return gulp.src('js/**/*.js')
+    .pipe(jshint())
+    .pipe(myReporter);
+});
+
+// clean file
+gulp.task('clean-scripts', function () {
+  return gulp.src('build/js/**/*.js', {read: false})
+    .pipe(clean());
+});
+
+// copy template
+gulp.task('copy-templates', function () {
+  return gulp.src('src/index.html')
+    .pipe(gulp.dest('build'));
+});
 
 // concat & uglify & rename javascript
-gulp.task('scripts', function () {
-  return gulp.src('src/**/*.js')
-    .pipe(jshint())
-    .pipe(myReporter)
-    .pipe(gulp.dest(DEST))
+gulp.task('scripts', ['clean-scripts', 'jshint'], function () {
+  return gulp.src(['src/js/app/*.js', 'src/js/helper/*.js'])
+    .pipe(gulp.dest('build/js'))
     .pipe(concat('app.js'))
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
-    .pipe(gulp.dest(DEST));
+    .pipe(gulp.dest('build/js'));
 });
 
 // default task
-gulp.task('default', ['scripts'], function () {
+gulp.task('default', ['scripts', 'copy-templates'], function () {
   console.log('successfully!');
 });
