@@ -10,8 +10,10 @@ var map = require('map-stream');
 var clean = require('gulp-clean');
 var sprite = require('css-sprite').stream;
 var gulpif = require('gulp-if');
-var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-sass');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 
 var myReporter = map(function (file, cb) {
   if (!file.jshint.success) {
@@ -57,10 +59,8 @@ gulp.task('scripts', ['clean-scripts', 'jshint'], function () {
 // transition sass file to css file
 gulp.task('sass',['sprites'], function () {
   return gulp.src('src/scss/*.scss')
-      .pipe(sourcemaps.init())
       .pipe(sass())
-      .pipe(sourcemaps.write())
-      .pipe(gulp.dest('src/css'));
+      .pipe(gulp.dest('./css'));
 });
 
 // css sprite
@@ -85,6 +85,17 @@ gulp.task('base64', function () {
       processor: 'scss'
     }))
     .pipe(gulp.dest('./build/scss/'));
+});
+
+// serve
+gulp.task('serve', function () {
+  browserSync({
+    server: {
+      baseDir: 'src'
+    }
+  });
+
+  gulp.watch(['*.html', 'css/**/*.css', 'js/**/*.js'], {cwd: 'src'}, reload);
 });
 
 // default task
