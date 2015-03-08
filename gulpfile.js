@@ -14,6 +14,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var jade = require('gulp-jade');
 
 var myReporter = map(function (file, cb) {
   if (!file.jshint.success) {
@@ -38,6 +39,13 @@ gulp.task('jshint', function () {
 gulp.task('clean-scripts', function () {
   return gulp.src('build/js/**/*.js', {read: false})
     .pipe(clean());
+});
+
+// transpart template
+gulp.task('templates', function () {
+  return gulp.src('src/*.jade')
+    .pipe(jade())
+    .pipe(gulp.dest('build'));
 });
 
 // copy template
