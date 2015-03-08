@@ -4,9 +4,23 @@
   <meta charset="UTF-8">
   <title>requirejs demo</title>
   <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <p class="animated bounce">RequireJS Demo</p>
+  <nav>
+    <ul class="menu">
+      <li class="active"><a href="">Home</a></li>
+      <li><a href="">setting</a></li>
+      <li>
+        <a href="">profile <i class="caret"></i></a>
+        <ul class="sub-menu">
+         <li><a href="">username</a></li>
+         <li><a href="">logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
   <script data-main="js/app" src="js/vendor/require.js"></script>
 </body>
 </html>
