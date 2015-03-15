@@ -24,6 +24,15 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
+/* 使用border-box盒模型 */
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
